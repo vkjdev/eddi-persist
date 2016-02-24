@@ -1,0 +1,34 @@
+{
+  "name": "eddi-persist",
+  "version": "1.0.0",
+  "description": "persistence for eddi sensor and control data",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/water-alchemists/eddi-persist.git"
+  },
+  "keywords": [
+    "eddi",
+    "desalination",
+    "water",
+    "salt",
+    "brine",
+    "electrodialysis",
+    "sqlite",
+    "firebase"
+  ],
+  "author": "Eddi Systems",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/water-alchemists/eddi-persist/issues"
+  },
+  "homepage": "https://github.com/water-alchemists/eddi-persist#readme",
+  "dependencies": {
+    "firebase": "^2.4.1",
+    "sequelize": "^3.19.3",
+    "sqlite3": "^3.1.1"
+  }
+}
