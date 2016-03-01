@@ -2,10 +2,16 @@
 const fs = require('fs'),
 	path = require('path'),
 	Sequelize = require('sequelize'),
-	config = require(__dirname + '/../config'),
-	dbConfig = config.development.db;
+	config = {
+		database : '',
+		username : '',
+		password : '',
+		dialect : 'sqlite',
+		host: 'localhost',
+		storage: './eddi.sqlite'
+	};
 
-const sequelize = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.password, dbConfig),
+const sequelize = new Sequelize(config.database, config.username, config.password, config),
 	db = {};
 
 fs.readdirSync(__dirname)
