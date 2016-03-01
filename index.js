@@ -9,21 +9,61 @@ if( !EDDI_ID ){
   process.exit(1);
 }
 
-models.sequelize.sync().then(() => {
-  const readingsDB = new Firebase('https://eddi.firebaseio.com/eddis/'+EDDI_ID+'/readings');
-  
-  const socket = net.connect("../eddi-sensors/data/sensors.sock");
+models.sequelize.sync()
+  .then(() => {
+    const readingsDB = new Firebase('https://eddi.firebaseio.com/eddis/' + EDDI_ID + '/readings'),
+      Reading = models.Reading;
+    
+    const socket = net.connect("../eddi-sensors/data/sensors.sock");
 
-  socket.on("data", function(data){
-    const dataArray = data.toString().split("|");
-    const dataObj = {};
-    dataObj[dataArray[0]] = {
-      qOut:   parseFloat(dataArray[1]),
-      qDump:  parseFloat(dataArray[2]),
-      ppmOut: parseInt(dataArray[3]),
-      ppmIn:  parseInt(dataArray[4]),
-      ppmRec: parseInt(dataArray[5])
-    };
-    readingsDB.update(dataObj);
+    function formatReadingToFirebase(date, qOut, qDump, ppmOut, ppmIn, ppmRec){
+      const data = {};
+      data[date] = {
+        qOut,
+        qDump,
+        ppmOut,
+        ppmIn, 
+        ppmRec
+      };
+      return data;
+    }
+
+    function formatReadingToSqlite(date, qOut, qDump, ppmOut, ppmIn, ppmRec){
+      return {
+        date,
+        qOut,
+        qDump,
+        ppmOut,
+        ppmIn,
+        ppmRec
+      };
+    }
+
+    socket.on("data", function(data){
+      const dataArray = data.toString().split("|");
+      const date = dataArray[0],
+        qOut = parseFloat(dataArray[1]),
+        qDump = parseFloat(dataArray[2]),
+        ppmOut = parseInt(dataArray[3]),
+        ppmIn = parseInt(dataArray[4]),
+        ppmRec = parseInt(dataArray[5]);
+
+      const firebaseData = formatReadingToFirebase(date, qOut, qDump, ppmOut, ppmIn, ppmRec),
+        sqliteData = formatReadingToSqlite(date, qOut, qDump, ppmOut, ppmIn, ppmRec);
+
+      //updates firebase
+      readingsDB.update(firebaseData, function(error){
+        if(error) return console.log('ERROR SENDING TO FIREBASE: ', error);
+        console.log('SENT TO FIREBASE')
+      });
+
+      //updates reading sqlite
+      Reading.create(sqliteData)
+        .then(entry => {
+          console.log('SUCCESS ADDING TO SQLITE: ', entry);
+        })
+        .catch(error => {
+          console.log('ERROR ADDING TO SQLITE: ', error);
+        });
+    });
   });
-})
