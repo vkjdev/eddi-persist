@@ -31,7 +31,7 @@ module.exports = function(sequelize, DataTypes){
 		methods = {
 			freezeTableName: true,
 			classMethods : {
-				getEarliestOfDate : function(date){
+				getEarliestAfterDate : function(date){
 					// return this.max('id')
 					// 		.then(id => this.findById(id))
 				},
