@@ -30,12 +30,12 @@ models.sequelize.sync()
 
     function formatReadingToSqlite(date, qOut, qDump, ppmOut, ppmIn, ppmRec){
       return {
-        new Date(date*1000),
-        qOut,
-        qDump,
-        ppmOut,
-        ppmIn,
-        ppmRec
+        date: new Date(date*1000),
+        qOut: qOut,
+        qDump: qDump,
+        ppmOut: ppmOut,
+        ppmIn: ppmIn,
+        ppmRec: ppmRec
       };
     }
 
