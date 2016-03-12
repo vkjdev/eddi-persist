@@ -60,7 +60,7 @@ models.sequelize.sync()
       //updates reading sqlite
       Reading.create(sqliteData)
         .then(entry => {
-          console.log('SUCCESS ADDING TO SQLITE: ', entry);
+          console.log('SUCCESS ADDING TO SQLITE: ', entry.dataValues);
         })
         .catch(error => {
           console.log('ERROR ADDING TO SQLITE: ', error);
