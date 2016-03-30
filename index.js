@@ -3,7 +3,7 @@ const net = require('net'),
 
 const models = require('./models');
 
-const EDDI_ID = process.env.EDDI_ID;
+const EDDI_ID = process.env.EDDI_ID || 'test-teddi';
 if( !EDDI_ID ){
   console.error("You must provide an EDDI_ID environment variable.");
   process.exit(1);
