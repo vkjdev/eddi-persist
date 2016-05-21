@@ -15,7 +15,7 @@ models.sequelize.sync()
   .then(() => {
     const readingsDB = new Firebase('https://eddi.firebaseio.com/eddis/' + EDDI_ID + '/readings'),
       Reading = models.Reading;
-    
+
     const socket = net.connect("../eddi-sensors/data/sensors.sock");
 
     function formatReadingToFirebase(date, qOut, qDump, ppmOut, ppmIn, ppmRec){
@@ -24,7 +24,7 @@ models.sequelize.sync()
         qOut,
         qDump,
         ppmOut,
-        ppmIn, 
+        ppmIn,
         ppmRec
       };
       return data;
@@ -32,12 +32,12 @@ models.sequelize.sync()
 
     function formatReadingToSqlite(date, qOut, qDump, ppmOut, ppmIn, ppmRec){
       return {
-        date,
-        qOut,
-        qDump,
-        ppmOut,
-        ppmIn,
-        ppmRec
+        date: new Date(date*1000),
+        qOut: qOut,
+        qDump: qDump,
+        ppmOut: ppmOut,
+        ppmIn: ppmIn,
+        ppmRec: ppmRec
       };
     }
 
@@ -76,6 +76,4 @@ models.sequelize.sync()
     //       console.log('ERROR ADDING TO SQLITE: ', error);
     //     });
     // });
-    
-    
   });
