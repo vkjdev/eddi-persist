@@ -57,8 +57,8 @@ function countToFrequency(count){
 }
 
 function getReading(pin){
-    const readingPath = PINS[pin];
-    if(!readingPath) throw new Error(`Not a valid pin.`);
+    const readingPath = pin && PINS[pin.toLowerCase()];
+    if(!readingPath) throw new Error(`${pin} is not a valid pin.`);
     return fsPromises(readingPath);
 }
 
