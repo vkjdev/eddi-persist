@@ -2,10 +2,12 @@ const net = require('net'),
   Firebase = require('firebase');
 
 const models = require('./models'),
-  sensorsReader = require('./sensors-reader');
+  sensorsReader = require('./sensors-reader'),
+  formatters = require('./formatters');
 
 const EDDI_ID = process.env.EDDI_ID || 'test-teddi',
   INTERVAL = 60 * 1000;
+
 if( !EDDI_ID ){
   console.error("You must provide an EDDI_ID environment variable.");
   process.exit(1);
@@ -16,38 +18,37 @@ models.sequelize.sync()
     const readingsDB = new Firebase('https://eddi.firebaseio.com/eddis/' + EDDI_ID + '/readings'),
       Reading = models.Reading;
 
-    const socket = net.connect("../eddi-sensors/data/sensors.sock");
-
-    function formatReadingToFirebase(date, qOut, qDump, ppmOut, ppmIn, ppmRec){
-      const data = {};
-      data[date] = {
-        qOut,
-        qDump,
-        ppmOut,
-        ppmIn,
-        ppmRec
-      };
-      return data;
-    }
-
-    function formatReadingToSqlite(date, qOut, qDump, ppmOut, ppmIn, ppmRec){
-      return {
-        date: new Date(date*1000),
-        qOut: qOut,
-        qDump: qDump,
-        ppmOut: ppmOut,
-        ppmIn: ppmIn,
-        ppmRec: ppmRec
-      };
-    }
-
+    // const socket = net.connect("../eddi-sensors/data/sensors.sock");
+    
     setInterval(() => {
       sensorsReader.getAllReadings()
         .then(reading => {
           console.log('this is the reading', reading);
+          const firebaseData = formatters.toFirebase(reading),
+                sqliteData = formatters.toSqlite(reading);
+          
+          // update firebase promise
+          function updateFirebasePromise(data){
+            return new Promise((resolve, reject) => {
+              readingsDB.update(data, error => {
+                if(error) return reject(error);
+                resolve();
+              });
+            })
+            .then(() => console.log('SENT TO FIREBASE'));
+          }
+          
+          // save to sqlite and send to firebase promises
+          return Promise.all([
+            updateFirebasePromise(firebaseData),
+            Readings.create(sqliteData).then(() => console.log('SAVED TO SQLITE'))
+          ]);
+          
         })
+        .then(() => console.log('All data saved and sent', new Date().toLocaleString()))
         .catch(error => console.error('error getting reading', error, error.stack));
-    }, INTERVAL);
+    
+  }, INTERVAL);
 
     // socket.on("data", function(data){
     //   const dataArray = data.toString().split("|");

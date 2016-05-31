@@ -20,10 +20,10 @@ const BASE = '/sys/devices/12d10000.adc/iio:device0',
     },
     READINGS = {
         [VALUES.flowOut] : 'a0',
-        [VALUES.flowRec] : 'a1',
-        [VALUES.salinityIn]: 'a2',
-        [VALUES.salinityOut] : 'a3',
-        [VALUES.salinityRec] : 'a4'
+        [VALUES.flowRec] : 'a4',
+        [VALUES.salinityIn]: 'a1',
+        [VALUES.salinityOut] : 'a2',
+        [VALUES.salinityRec] : 'a3'
     },
     CALCULATOR = {
         [VALUES.flowOut] : count => countToFrequency(count),
@@ -47,7 +47,7 @@ const BASE = '/sys/devices/12d10000.adc/iio:device0',
     A4(Analog) - recirculation salinity.
 */
    
- 
+// Helper functions
 function rawToPpm(raw){
     return calculator.voltageToPpm(calculator.rawToPpm(raw));
 }
@@ -56,6 +56,7 @@ function countToFrequency(count){
     return count / 5.5
 }
 
+// get readings
 function getReading(pin){
     const readingPath = pin && PINS[pin.toLowerCase()];
     if(!readingPath) throw new Error(`${pin} is not a valid pin.`);
@@ -64,6 +65,7 @@ function getReading(pin){
 
 function getAllReadings(){
     const values = [
+        'flowOut',
         'salinityIn',
         'salinityOut',
         'salinityRec',
@@ -78,10 +80,8 @@ function getAllReadings(){
         });
         
    return Promise.all(getFindings)
-        .then(findings => Object.assign.apply(null, [{}].concat(findings)));
+        .then(findings => Object.assign.apply(null, [{ date: new Date() }].concat(findings)));
 }
-
-
 
 module.exports = {
     getReading : getReading,
