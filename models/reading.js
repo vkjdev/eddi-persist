@@ -8,7 +8,6 @@ module.exports = function(sequelize, DataTypes){
 			},
 			qDump : {
 				type : DataTypes.FLOAT,
-				allowNull: false,
 			},
 			ppmOut: {
 				type : DataTypes.INTEGER,
