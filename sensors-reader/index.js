@@ -75,7 +75,7 @@ function getAllReadings(){
         .map(value => {
             const pin = READINGS[value];
             return getReading(pin)
-                .then(data => CALCULATOR[data])
+                .then(data => CALCULATOR[value](data))
                 .then(calculated => ({ [value] : calculated }));
         });
         
