@@ -49,7 +49,7 @@ const BASE = '/sys/devices/12d10000.adc/iio:device0',
    
 // Helper functions
 function rawToPpm(raw){
-    return calculator.voltageToPpm(calculator.rawToPpm(raw));
+    return calculator.voltageToPpm(calculator.rawToMillivolts(raw));
 }
 
 function countToFrequency(count){
