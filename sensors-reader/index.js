@@ -19,11 +19,11 @@ const BASE = '/sys/devices/12d10000.adc/iio:device0',
         a5 : `${BASE}/in_voltage7_raw`,
     },
     READINGS = {
-        [VALUES.flowOut] : 'a0',
+        [VALUES.flowOut] : 'a3',
         [VALUES.flowRec] : 'a4',
-        [VALUES.salinityIn]: 'a1',
-        [VALUES.salinityOut] : 'a2',
-        [VALUES.salinityRec] : 'a3'
+        [VALUES.salinityIn]: 'a0',
+        [VALUES.salinityOut] : 'a1',
+        [VALUES.salinityRec] : 'a2'
     },
     CALCULATOR = {
         [VALUES.flowOut] : count => countToFrequency(count),
@@ -37,14 +37,14 @@ const BASE = '/sys/devices/12d10000.adc/iio:device0',
 /*
     Flow Sensing
     This will be measured in frequency. A high frequency means that the flow is fast. Slow means flow is low.
-    A0(Analog) - output flow sensor.
-    A1(Analog) - recirculation flow sensor. The recirculation flow sensor can be used to measure how much water is dumped during dump mode.
+    A3(Analog) - output flow sensor.
+    A4(Analog) - recirculation flow sensor. The recirculation flow sensor can be used to measure how much water is dumped during dump mode.
 
     Salinity Sensing
     A high value for this means that the water is very clean. Low values indicate salty water.
-    A2(Analog) - intake salinity.
-    A3(Analog) - output salinity.
-    A4(Analog) - recirculation salinity.
+    A0(Analog) - intake salinity.
+    A1(Analog) - output salinity.
+    A2(Analog) - recirculation salinity.
 */
    
 // Helper functions
