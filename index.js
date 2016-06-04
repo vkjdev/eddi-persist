@@ -17,7 +17,7 @@ models.sequelize.sync()
   .then(() => {
     const readingsDB = new Firebase('https://eddi.firebaseio.com/eddis/' + EDDI_ID + '/readings'),
       Reading = models.Reading;
-
+      
     // const socket = net.connect("../eddi-sensors/data/sensors.sock");
     
     setInterval(() => {
@@ -77,4 +77,16 @@ models.sequelize.sync()
     //       console.log('ERROR ADDING TO SQLITE: ', error);
     //     });
     // });
-  });
+  })
+  .catch(err => console.error('error starting syncing', err));
+
+// log out unhandled errors
+const errors = ['uncaughtException', 'unhandledRejection'];
+
+errors.forEach(event => {
+  process.on(event, (err, data) => console.error(`${event} received for error`, err));  
+});
+
+process.on('exit', () => {
+  console.log('process exited');
+});
