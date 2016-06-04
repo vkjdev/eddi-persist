@@ -1,12 +1,15 @@
-const net = require('net'),
-  Firebase = require('firebase');
+'use strict';
+const Firebase = require('firebase');
 
 const models = require('./models'),
   sensorsReader = require('./sensors-reader'),
-  formatters = require('./formatters');
+  formatters = require('./formatters'),
+  config = require('./config);
 
-const EDDI_ID = process.env.EDDI_ID || 'test-teddi',
+const EDDI_ID = config.id,
   INTERVAL = 60 * 1000;
+
+console.log('eddi-persist starting...');
 
 if( !EDDI_ID ){
   console.error("You must provide an EDDI_ID environment variable.");
