@@ -9,9 +9,9 @@ const POSSIBLES = {
 
 // NEW
 function getDate(date){
-    if(date instanceof Date) return date.getTime() / 1000;
+    if(date instanceof Date) return Math.floor(date.getTime() / 1000);
     else if(typeof date === 'number') return date;
-    else if(typeof date === 'string') return new Date(date) / 1000;
+    else if(typeof date === 'string') return Math.floor(new Date(date) / 1000);
     else throw new Error('Valid date needs to be provided.');
 }
 

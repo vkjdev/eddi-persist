@@ -44,7 +44,7 @@ models.sequelize.sync()
           // save to sqlite and send to firebase promises
           return Promise.all([
             updateFirebasePromise(firebaseData),
-            Readings.create(sqliteData).then(() => console.log('SAVED TO SQLITE'))
+            Reading.create(sqliteData).then(() => console.log('SAVED TO SQLITE'))
           ]);
           
         })
