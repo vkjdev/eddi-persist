@@ -4,7 +4,7 @@ const Firebase = require('firebase');
 const models = require('./models'),
   sensorsReader = require('./sensors-reader'),
   formatters = require('./formatters'),
-  config = require('./config);
+  config = require('./config');
 
 const EDDI_ID = config.id,
   INTERVAL = 60 * 1000;
