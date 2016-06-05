@@ -6,10 +6,10 @@ module.exports = function(sequelize, DataTypes){
 				type : DataTypes.FLOAT,
 				allowNull: false,
 			},
-			qDump : {
-				type : DataTypes.FLOAT,
-				allowNull : true
-			},
+			// qDump : {
+			// 	type : DataTypes.FLOAT,
+			// 	allowNull : true
+			// },
 			ppmOut: {
 				type : DataTypes.INTEGER,
 				allowNull: false,
