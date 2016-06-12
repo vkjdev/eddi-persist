@@ -47,13 +47,16 @@ const BASE = '/sys/devices/12d10000.adc/iio:device0',
     A2(Analog) - recirculation salinity.
 */
    
+   // salinity 0 - 3000 millivolts
+   // flow 1000 - 2000 millivolts
+   
 // Helper functions
 function rawToPpm(raw){
     return calculator.voltageToPpm(calculator.rawToMillivolts(raw));
 }
 
-function countToFrequency(count){
-    return count / 5.5
+function countToFrequency(raw){
+    return calculator.rawToMillivolts(raw) / 5.5;
 }
 
 // get readings
