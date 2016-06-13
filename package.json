@@ -28,8 +28,8 @@
   },
   "homepage": "https://github.com/water-alchemists/eddi-persist#readme",
   "dependencies": {
-    "firebase": "^2.4.1",
     "sequelize": "^3.19.3",
-    "sqlite3": "^3.1.1"
+    "sqlite3": "^3.1.1",
+    "superagent": "^2.0.0"
   }
 }

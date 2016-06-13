@@ -1,8 +1,7 @@
 'use strict';
-const Firebase = require('firebase');
-
 const models = require('./models'),
   sensorsReader = require('./sensors-reader'),
+  home = require('./modules/home-communication'),
   formatters = require('./formatters'),
   config = require('./config');
 
@@ -18,8 +17,7 @@ if( !EDDI_ID ){
 
 models.sequelize.sync()
   .then(() => {
-    const readingsDB = new Firebase('https://eddi.firebaseio.com/eddis/' + EDDI_ID + '/readings'),
-      Reading = models.Reading;
+    const Reading = models.Reading;
       
     // const socket = net.connect("../eddi-sensors/data/sensors.sock");
     
@@ -29,21 +27,10 @@ models.sequelize.sync()
           console.log('this is the reading', reading);
           const firebaseData = formatters.toFirebase(reading),
                 sqliteData = formatters.toSqlite(reading);
-          
-          // update firebase promise
-          function updateFirebasePromise(data){
-            return new Promise((resolve, reject) => {
-              readingsDB.update(data, error => {
-                if(error) return reject(error);
-                resolve();
-              });
-            })
-            .then(() => console.log('SENT TO FIREBASE'));
-          }
-          
+
           // save to sqlite and send to firebase promises
           return Promise.all([
-            updateFirebasePromise(firebaseData),
+            home.postReading(firebaseData).then(() => console.log('SENT HOME')), // update home with reading
             Reading.create(sqliteData).then(() => console.log('SAVED TO SQLITE'))
           ]);
           
