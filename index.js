@@ -6,7 +6,7 @@ const models = require('./models'),
   config = require('./config');
 
 const EDDI_ID = config.id,
-  INTERVAL = 60 * 1000;
+  INTERVAL = 15 * 1000;
 
 console.log('eddi-persist starting...');
 
