@@ -31,8 +31,7 @@ const BASE = '/sys/devices/12d10000.adc/iio:device0',
         [VALUES.salinityIn]: raw => rawToPpm(raw),
         [VALUES.salinityOut] : raw => rawToPpm(raw),
         [VALUES.salinityRec] : raw => rawToPpm(raw) 
-    },
-    INTERVAL = 60 * 1000;
+    };
     
 /*
     Flow Sensing
