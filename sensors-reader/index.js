@@ -55,7 +55,7 @@ function rawToPpm(raw){
 }
 
 function countToFrequency(raw){
-    return calculator.rawToMillivolts(raw) / 5.5;
+    return calculator.rawToMillivolts(raw);
 }
 
 // get readings

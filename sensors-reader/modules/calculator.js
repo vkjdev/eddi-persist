@@ -1,12 +1,12 @@
 'use strict';
 
 function voltageToPpm(millivolts){
-    const salResistorOhms = 1000000,
-        ohms = (millivolts / (5000.0 - millivolts)) * salResistorOhms;
+    const resistance = 10 / ((5 / (millivolts / 1000)) - 1),
+        salinity = 257300 * Math.pow(resistance, -1.72);
 
 	// TODO: Need to test in order to establish constants for the function of resistance to tds
 
-	return ohms / 100;
+	return salinity;
 }
 
 function rawToMillivolts(raw){
