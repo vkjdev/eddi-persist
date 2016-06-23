@@ -77,6 +77,10 @@ function getAllReadings(){
         .map(value => {
             const pin = READINGS[value];
             return getReading(pin)
+                .then(data => {
+                  console.log('type', value, 'raw', data, 'millivolts', calculator.rawToMillivolts(data));
+                  return data;
+                })
                 .then(data => CALCULATOR[value](data))
                 .then(calculated => ({ [value] : calculated }));
         });
