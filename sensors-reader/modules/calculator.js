@@ -7,7 +7,7 @@ function voltageToPpm(millivolts){
 	// TODO: Need to test in order to establish constants for the function of resistance to tds
 
     // if salinity is zero, set it to a really high number
-	return Object.is(salinity, Infinity) ? 1000000 : salinity;
+	return Object.is(salinity, Infinity) ? 100000 : salinity;
 }
 
 function rawToMillivolts(raw){
