@@ -3,8 +3,8 @@
 const MAX_SALINITY = 100000;
 
 function voltageToPpm(millivolts){
-    const resistance = 10 / ((5 / (millivolts / 1000)) - 1),
-        salinity = 257300 * Math.pow(resistance, -1.72);
+    const resistance = (10000 / (millivolts / 1000)) - 2000,
+        salinity = 257396 * Math.pow(resistance, -1.72);
 
 	// TODO: Need to test in order to establish constants for the function of resistance to tds
 
