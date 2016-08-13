@@ -22,12 +22,12 @@ function getReading(pin){
 
 setInterval(() => {
     console.log(`<==== ${new Date().toLocaleString()} =======>`);
-    Object.keys(PINS).forEach(pin => {
+    ['a0', 'a1', 'a2'].forEach(pin => {
         getReading(pin)
             .then(raw => {
                 const voltage = calculator.rawToMillivolts(raw),
                     ppm = calculator.voltageToPpm(voltage);
-                console.log(`pin ${pin} : raw ${raw}, millivolts ${voltage}, ppm ${ppm}`);
+                console.log(`pin ${pin} : raw ${raw}, millivolts ${Math.round(voltage)}, ppm ${ppm}`);
             })
             .catch(err => console.error('got an error', err));
     });
