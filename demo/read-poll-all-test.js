@@ -21,6 +21,7 @@ function getReading(pin){
 }
 
 setInterval(() => {
+    console.log(`<==== ${new Date().toISOString()} =======>`);
     Object.keys(PINS).forEach(pin => {
         getReading(pin)
             .then(raw => {
