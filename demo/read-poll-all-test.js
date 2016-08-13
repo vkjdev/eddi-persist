@@ -21,11 +21,13 @@ function getReading(pin){
 }
 
 setInterval(() => {
-    console.log(`<==== ${new Date().toISOString()} =======>`);
+    console.log(`<==== ${new Date().toLocaleString()} =======>`);
     Object.keys(PINS).forEach(pin => {
         getReading(pin)
             .then(raw => {
-                console.log('pin', pin, 'raw', raw, 'calculated', calculator.rawToMillivolts(raw));
+                const voltage = calculator.rawToMillivolts(raw),
+                    ppm = calculator.voltageToPpm(voltage);
+                console.log(`pin ${pin} : raw ${raw}, millivolts ${voltage}, ppm ${ppm}`);
             })
             .catch(err => console.error('got an error', err));
     });
