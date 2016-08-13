@@ -34,3 +34,5 @@ node_modules
 
 *.sqlite
 browse.VC.db
+
+.vscode
