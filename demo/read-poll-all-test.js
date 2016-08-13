@@ -22,13 +22,11 @@ function getReading(pin){
 
 setInterval(() => {
     Object.keys(PINS).forEach(key => {
-        const pin = PINS[key];
-
         getReading(pin)
             .then(raw => {
                 console.log('key', key, 'pin', pin, 'raw', raw, 'calculated', calculator.rawToMillivolts(raw));
             })
             .catch(err => console.error('got an error', err));
     });
-    
+
 }, INTERVAL);
