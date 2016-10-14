@@ -3,7 +3,7 @@
 const MAX_SALINITY = 100000;
 const A_N = 9778;
 const B_N = -1.3713;
-// calculated via an inverse of the Power Law of Least Squares Fitting
+// These are calculated from a power law least squares fit on actual readings of known salinity;
 // http://mathworld.wolfram.com/LeastSquaresFittingPowerLaw.html
 
 function voltageToPpm(millivolts){
