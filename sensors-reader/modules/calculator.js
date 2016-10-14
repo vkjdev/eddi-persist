@@ -1,18 +1,23 @@
 'use strict';
 
-const A_N = 11483;
-const B_N = -1.7373;
-// calculated via an inverse of the Power Law of Least Squares Fitting
+const MAX_SALINITY = 100000;
+const A_N = 9778;
+const B_N = -1.3713;
+// These are calculated from a power law least squares fit on actual readings of known salinity;
 // http://mathworld.wolfram.com/LeastSquaresFittingPowerLaw.html
 
 function voltageToPpm(millivolts){
-    const salResistorOhms = 1000000,
-        ohms = (millivolts / (5000.0 - millivolts)) * salResistorOhms;
-
+    const resistance = ((10000 / (millivolts / 1000)) - 2000) / 1000,
+        salinity = A_N * Math.pow(resistance, B_N);
+    console.log('millivolts', millivolts, 'resistance', resistance, 'salinity', salinity);
 	// TODO: Need to test in order to establish constants for the function of resistance to tds
     
-
-    return A_N * Math.pow(ohms, B_N);
+    // if salinity is Infinite, set it to a really high number
+    if( Object.is(salinity, Infinity) ){
+    	return MAX_SALINITY;
+    } else {
+    	return Math.min(MAX_SALINITY, salinity);
+    }
 }
 
 function rawToMillivolts(raw){

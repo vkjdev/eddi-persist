@@ -55,7 +55,7 @@ function rawToPpm(raw){
 }
 
 function countToFrequency(raw){
-    return calculator.rawToMillivolts(raw) / 5.5;
+    return calculator.rawToMillivolts(raw);
 }
 
 // get readings
@@ -77,6 +77,10 @@ function getAllReadings(){
         .map(value => {
             const pin = READINGS[value];
             return getReading(pin)
+                .then(data => {
+                  console.log('type', value, 'raw', data, 'millivolts', calculator.rawToMillivolts(data));
+                  return data;
+                })
                 .then(data => CALCULATOR[value](data))
                 .then(calculated => ({ [value] : calculated }));
         });
